@@ -2,10 +2,12 @@ package com.employees.entities;
 import lombok.*;
 import javax.persistence.*;
 import java.sql.Timestamp;
+import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
 @NoArgsConstructor
+@AllArgsConstructor
 @Setter
 @Getter
 @ToString
@@ -27,6 +29,8 @@ public abstract class Employee {
 
     int score;
 
+
+
     @Column(name="created")
     @Temporal(TemporalType.TIMESTAMP)
     private Date created;
@@ -36,13 +40,10 @@ public abstract class Employee {
     private Date modified;
 
     @ManyToOne(fetch= FetchType.EAGER)
-    Departement departement;
+    private Departement departement;
 
     @ManyToOne(fetch= FetchType.EAGER)
-    Remuneration remuneration;
-
-    @ManyToOne(fetch= FetchType.EAGER)
-    User user;
+    private Remuneration remuneration;
 
     public Employee(long id,String name, String address, String phone,int grade, int score, Departement departement, Remuneration remuneration) {
         this.id=id;
@@ -69,7 +70,7 @@ public abstract class Employee {
 
     public abstract void setSousAdjacents(List<NormalEmployee> normalEmployeeList);
 
-    public void  managerToNormal(ManagerEmployee managerEmployee){
+    public NormalEmployee  managerToNormal(ManagerEmployee managerEmployee){
         NormalEmployee normalEmployee = new NormalEmployee();
         normalEmployee.setScore(managerEmployee.getScore());
         normalEmployee.setAddress(managerEmployee.getAddress());
@@ -80,6 +81,7 @@ public abstract class Employee {
         normalEmployee.setRemuneration(managerEmployee.getRemuneration());
         normalEmployee.setCreated(managerEmployee.getCreated());
         normalEmployee.setModified(new Timestamp(System.currentTimeMillis()));
+        return normalEmployee;
     };
 
     public String type() {
@@ -92,5 +94,7 @@ public abstract class Employee {
            return "non reconnue";
        }
     }
+
+    public abstract List<NormalEmployee> getNormalEmployees();
 }
 

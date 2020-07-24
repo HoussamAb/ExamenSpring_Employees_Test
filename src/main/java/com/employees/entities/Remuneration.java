@@ -19,6 +19,7 @@ public class Remuneration {
     long id;
     String name;
     String type;
+    int valeur;
     @Column(name="created")
     @Temporal(TemporalType.TIMESTAMP)
     private Date created;
@@ -27,4 +28,7 @@ public class Remuneration {
     private Date modified;
 
 
+    public Remuneration(long l) {
+        this.id = l;
+    }
 }

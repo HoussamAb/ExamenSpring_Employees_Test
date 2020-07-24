@@ -34,6 +34,7 @@ public class HomeController {
             System.out.println(a.getDepartement());
             System.out.println(a.getRemuneration());
             System.out.println("type :"+a.type());
+            System.out.println("employee :"+a.getClass().getName());
 
         }
         return map;

@@ -1,6 +1,7 @@
 package com.employees.services;
 
 import com.employees.entities.Employee;
+import com.employees.entities.ManagerEmployee;
 import com.employees.entities.NormalEmployee;
 import com.employees.exceptions.ResourceNotFoundException;
 import com.employees.repositories.NormalEmployeeRepository;
@@ -45,5 +46,12 @@ public class NormalEmployeeServiceImpl implements NormalEmployeeService {
     @Transactional
     public void deleteById(long id) {
         normalEmployeeRepository.deleteById(id);
+    }
+
+    @Override
+    @Transactional
+    public void updateById(long id, ManagerEmployee employee) throws ResourceNotFoundException {
+
+        normalEmployeeRepository.updateById(id,employee);
     }
 }

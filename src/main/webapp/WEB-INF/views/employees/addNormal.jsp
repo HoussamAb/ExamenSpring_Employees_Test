@@ -17,7 +17,7 @@
     <jsp:directive.include file="../layout/header.jsp" />
     <header class="col-lg-12">
         <h1>Ajouter un employee</h1>
-        <form:form method="post" action="${pageContext.request.contextPath}/employee/saveManager" modelAttribute="employees" >
+        <form:form method="post" action="${pageContext.request.contextPath}/normal/employee/saveNormal" modelAttribute="employees" >
             <form:input path="id" type="hidden" />
             <div class="form-group">
                 <label for="name">nom complete</label>

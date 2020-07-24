@@ -19,7 +19,8 @@ public class User {
     long id;
     String email;
     String password;
-    String role;
+    @ManyToOne(fetch= FetchType.EAGER)
+    private Role role;
     @Column(name="created")
     @Temporal(TemporalType.TIMESTAMP)
     private Date created;

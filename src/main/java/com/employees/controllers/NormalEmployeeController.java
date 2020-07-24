@@ -1,15 +1,15 @@
 package com.employees.controllers;
 
-import com.employees.entities.Departement;
-import com.employees.entities.Employee;
 import com.employees.entities.ManagerEmployee;
 import com.employees.entities.NormalEmployee;
 import com.employees.exceptions.ResourceNotFoundException;
 import com.employees.formaters.departementFormater;
 import com.employees.formaters.normalEmployeeFormater;
 import com.employees.formaters.remunerationFormater;
-import com.employees.repositories.RemunirationRepository;
-import com.employees.services.*;
+import com.employees.services.DepartementService;
+import com.employees.services.ManageremployeeService;
+import com.employees.services.NormalEmployeeService;
+import com.employees.services.RemunerationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -19,15 +19,11 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
-import java.util.List;
-import java.util.Optional;
 
 @Controller
-@RequestMapping("/employee")
-public class EmployeeController {
+@RequestMapping("/normal/employee")
+public class NormalEmployeeController {
 
-    @Autowired
-    private EmployeeService employeeService;
     @Autowired
     private RemunerationService remunerationService;
     @Autowired
@@ -50,41 +46,39 @@ public class EmployeeController {
         model.addAttribute("remuneration", remunerationService.getAllRumuneration());
         model.addAttribute("normalEmployees", normalEmployeeService.getAllNormalEmployee());
         model.addAttribute("employees", employee);
-        return "employees/add";
+        return "employees/addNormal";
     }
 
-    @PostMapping("/saveManager")
-    public String saveEmployee(@Valid @ModelAttribute("employees") ManagerEmployee employee, BindingResult result, ModelMap model, HttpServletRequest request) throws ResourceNotFoundException {
+    @PostMapping("/saveNormal")
+    public String saveEmployee(@Valid @ModelAttribute("employees") NormalEmployee employee, BindingResult result, ModelMap model, HttpServletRequest request) throws ResourceNotFoundException {
         if(result.hasErrors()){
             model.addAttribute("departement", departementService.getAllDeps());
             model.addAttribute("remuneration", remunerationService.getAllRumuneration());
             model.addAttribute("employee",employee);
-            return "employees/add";
+            return "employees/addNormal";
         }
-            manageremployeeService.save(employee);
-
+            normalEmployeeService.save(employee);
         return "redirect:/home";
     }
     @GetMapping({"/edit/{id}"})
     public String edit(@PathVariable("id") long id, ModelMap model, HttpServletRequest request) throws ResourceNotFoundException {
-        model.addAttribute("normalEmployees", normalEmployeeService.getAllNormalEmployee());
+        model.addAttribute("managers", manageremployeeService.getAllManagerEmployee());
         model.addAttribute("departement", departementService.getAllDeps());
         model.addAttribute("remuneration", remunerationService.getAllRumuneration());
-        model.addAttribute("employees",employeeService.findById(id));
-        return "employees/EditManager";
+        model.addAttribute("employees",normalEmployeeService.findById(id));
+        return "employees/EditEmployee";
     }
 
     @PostMapping({"/edit"})
-    public String postEdit(@Valid @ModelAttribute("employees") ManagerEmployee employee, BindingResult result, ModelMap model, HttpServletRequest request) throws ResourceNotFoundException {
+    public String postEdit(@Valid @ModelAttribute("employees") NormalEmployee employee, BindingResult result, ModelMap model, HttpServletRequest request) throws ResourceNotFoundException {
         if(result.hasErrors()){
             model.addAttribute("departement", departementService.getAllDeps());
             model.addAttribute("remuneration", remunerationService.getAllRumuneration());
             model.addAttribute("employee",employee);
-            return "employees/add";
+            return "employees/addNormal";
         }
-        // System.out.println("List des employées a ajouter :"+employee.getNormalEmployees().toString());
-        manageremployeeService.save(employee);
-
-        return "employees/add";
+        // normalEmployeeService.updateById(employee.getId(),employee.getManagers());
+        normalEmployeeService.save(employee);
+        return "employees/addNormal";
     }
 }

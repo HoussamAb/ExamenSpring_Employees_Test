@@ -1,5 +1,8 @@
 package com.employees.config;
 
+import com.employees.formaters.departementFormater;
+import com.employees.formaters.normalEmployeeFormater;
+import com.employees.formaters.remunerationFormater;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -46,4 +49,10 @@ public class WebAppConfig implements WebMvcConfigurer {
     }
 
  */
+@Override
+public void addFormatters(FormatterRegistry registry) {
+    registry.addConverter(new departementFormater());
+    registry.addConverter(new remunerationFormater());
+    registry.addConverter(new normalEmployeeFormater());
+}
 }

@@ -25,4 +25,8 @@ public class Departement {
     @Column(name="modified")
     @Temporal(TemporalType.TIMESTAMP)
     private Date modified;
+
+    public Departement(long l) {
+        this.id = l;
+    }
 }
